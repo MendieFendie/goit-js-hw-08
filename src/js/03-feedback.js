@@ -10,23 +10,17 @@ const refs = {
 };
 
 refs.form.addEventListener('submit', onFormSubmit);
-refs.textarea.addEventListener('input', throttle(onTextareaInput, 500));
+// refs.textarea.addEventListener('input', );
 
-refs.form.addEventListener('input', evt => {
-  const FormDataStorage = {
-    email: refs.form.elements.email.value,
-    message: refs.form.elements.message.value,
-  };
-  FormDataStorage[evt.target.name] = evt.target.value;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(FormDataStorage));
-});
+refs.form.addEventListener('input', throttle(onTextareaInput, 500));
 
 populateTextarea();
 
 function onFormSubmit(event) {
   event.preventDefault();
   console.log('Send');
-  console.log(localStorage.getItem(STORAGE_KEY));
+
+  console.log(JSON.parse(localStorage.getItem(STORAGE_KEY)));
   event.currentTarget.reset();
   localStorage.removeItem(STORAGE_KEY);
 }
@@ -34,6 +28,13 @@ function onFormSubmit(event) {
 function onTextareaInput(event) {
   const message = event.target.value;
   localStorage.setItem(STORAGE_KEY, message);
+
+  const FormDataStorage = {
+    email: refs.form.elements.email.value,
+    message: refs.form.elements.message.value,
+  };
+  FormDataStorage[event.target.name] = event.target.value;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(FormDataStorage));
 }
 
 function populateTextarea() {
