@@ -26,9 +26,6 @@ function onFormSubmit(event) {
 }
 
 function onTextareaInput(event) {
-  const message = event.target.value;
-  localStorage.setItem(STORAGE_KEY, message);
-
   const FormDataStorage = {
     email: refs.form.elements.email.value,
     message: refs.form.elements.message.value,
